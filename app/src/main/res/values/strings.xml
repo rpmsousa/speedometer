@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Speed notification</string>
+    <string name="notification_toggle">Enable Notifications</string>
+</resources>
