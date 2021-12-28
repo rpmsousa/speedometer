@@ -1,4 +1,6 @@
-package com.example.rsousa.speednotification;
+package com.rpmsousa.speedometer;
+
+import androidx.core.app.NotificationCompat;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -11,7 +13,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
 
 public class MainService extends Service {
 	private LocationManager locationManager;
@@ -20,19 +21,19 @@ public class MainService extends Service {
 
 	private NotificationManager notificationManager;
 	private NotificationCompat.Builder builder;
-	private int id = 1;
-	private int n = 0;
+	private final int id = 1;
+	private final int n = 0;
 	private float speed_km_h = 0;
 	private float err_speed_km_h = 0;
-	static float ERR_LOW_LIMIT = .5f;
-	static float ERR_HIGH_LIMIT = .01f;
-	static float DT_LOW_LIMIT = 2;
-	static float DT_HIGH_LIMIT = 15;
-	static float DIST_LOW_LIMIT = 10;
-	static float DIST_HIGH_LIMIT = 250;
-	static float SEC_PER_HOUR = (60 * 60);
-	static float M_PER_KM = 1000;
-	static float NSEC_PER_SEC = 1000000000;
+	static final float ERR_LOW_LIMIT = .5f;
+	static final float ERR_HIGH_LIMIT = .01f;
+	static final float DT_LOW_LIMIT = 2;
+	static final float DT_HIGH_LIMIT = 15;
+	static final float DIST_LOW_LIMIT = 10;
+	static final float DIST_HIGH_LIMIT = 250;
+	static final float SEC_PER_HOUR = (60 * 60);
+	static final float M_PER_KM = 1000;
+	static final float NSEC_PER_SEC = 1000000000;
 	static int LOCATION_ARRAY_SIZE = 16;
 	static long LOCATION_MIN_UPDATE_PERIOD_NS = 1000000000;
 
@@ -50,12 +51,12 @@ public class MainService extends Service {
 		PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
 		builder = new NotificationCompat.Builder(this)
-			.setSmallIcon(R.drawable.notification_icon)
-			.setOngoing(true)
-			.setPriority(NotificationCompat.PRIORITY_HIGH)
-			.setLocalOnly(true)
-			.setContentTitle("Speed (km/h)")
-			.setContentIntent(resultPendingIntent);
+				.setSmallIcon(R.drawable.notification_icon)
+				.setOngoing(true)
+				.setPriority(NotificationCompat.PRIORITY_HIGH)
+				.setLocalOnly(true)
+				.setContentTitle("Speed (km/h)")
+				.setContentIntent(resultPendingIntent);
 
 		notificationManager.notify(id, builder.build());
 
@@ -85,7 +86,7 @@ public class MainService extends Service {
 				float dt_s = ((float) (location.getElapsedRealtimeNanos() - locationLast.getElapsedRealtimeNanos())) / NSEC_PER_SEC;
 
 				if (((dist_m > DIST_LOW_LIMIT) && (dt_s > DT_LOW_LIMIT) && ((dist_m * ERR_LOW_LIMIT > err_m))) ||
-					(dist_m > DIST_HIGH_LIMIT) || (dt_s > DT_HIGH_LIMIT) || (dist_m * ERR_HIGH_LIMIT > err_m)) {
+						(dist_m > DIST_HIGH_LIMIT) || (dt_s > DT_HIGH_LIMIT) || (dist_m * ERR_HIGH_LIMIT > err_m)) {
 					speed_km_h = (dist_m / M_PER_KM) / (dt_s / SEC_PER_HOUR);
 					err_speed_km_h = (err_m / M_PER_KM) / (dt_s / SEC_PER_HOUR);
 
@@ -104,7 +105,7 @@ public class MainService extends Service {
 					_speed = String.format("%.1f (%.1f) ", speed_km_h, err_speed_km_h);
 
 				String _speed_full = String.format("%.1f %.1f %.1f %.1f %.1f (%.1f)",
-					dist_m, err_m, locationLast.bearingTo(location), dt_s, speed_km_h, err_speed_km_h);
+						dist_m, err_m, locationLast.bearingTo(location), dt_s, speed_km_h, err_speed_km_h);
 
 				builder.setTicker(_speed);
 //				builder.setNumber(n);

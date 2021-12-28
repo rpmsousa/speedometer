@@ -1,4 +1,4 @@
-package com.example.rsousa.speednotification;
+package com.rpmsousa.speedometer;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,24 +9,22 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 class LocationHandler implements LocationListener {
-	static int LOCATION_ARRAY_SIZE = 16;
-	static long LOCATION_MIN_UPDATE_PERIOD_NS = 1000000000;
+	static final int LOCATION_ARRAY_SIZE = 16;
+	static final long LOCATION_MIN_UPDATE_PERIOD_NS = 1000000000;
 
-	private LocationManager locationManager;
+	private final LocationManager locationManager;
 	private Location locationPrevious = null;
 	private Location locationFirst = null;
-	private Location[] locationArray= new Location[LOCATION_ARRAY_SIZE];
+	private final Location[] locationArray= new Location[LOCATION_ARRAY_SIZE];
 	private int locationW = 0;
 	private int locationN = 0;
 	private int locationR = 0;
 	private int count = 0;
 	private int locationPreviousW = 0;
-	private TextView mView;
+	private final TextView mView;
 
 	LocationHandler(Activity activity, TextView view) {
 		locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
@@ -149,9 +147,9 @@ public class MainActivity extends Activity {
 
 		setContentView(R.layout.activity_main);
 
-		textView1 = (TextView) findViewById(R.id.text1);
-		textView2 = (TextView) findViewById(R.id.text2);
-		checkbox = (CheckBox) findViewById(R.id.notification_toggle);
+		textView1 = findViewById(R.id.text1);
+		textView2 = findViewById(R.id.text2);
+		checkbox = findViewById(R.id.notification_toggle);
 
 		textView1.setText("OnCreate\n");
 
